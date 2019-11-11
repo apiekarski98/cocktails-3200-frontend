@@ -16,4 +16,8 @@
   font-size: 36px;
   color: #FFFFFF;
   vertical-align: top;
+  background-color: gray;
+}
+.button {
+  background-color: gray;
 }
