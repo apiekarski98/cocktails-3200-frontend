@@ -1,7 +1,7 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import './index.css';
-import { Route, Link, BrowserRouter as Router } from 'react-router-dom'
+import { Route, BrowserRouter as Router } from 'react-router-dom'
 import App from './App';
 import Ingredient from './components/Ingredient/Ingredient';
 import Glassware from './components/Glassware/Glassware';
