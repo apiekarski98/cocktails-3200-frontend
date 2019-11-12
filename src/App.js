@@ -12,7 +12,7 @@ class App extends Component {
         return (
             <div className="App">
                 <header className="App-header">
-                    <a className="header">Cocktails</a>
+                    <text className="header">Cocktails</text>
                     <button className='button' onClick={() => this.onClick('ingredient')}>Ingredients
                     </button>
                     <button className='button' onClick={() => this.onClick('garnish')}>Garnishes
