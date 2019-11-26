@@ -1,23 +1,25 @@
 .App {
   text-align: center;
-}
-
-.App-header {
-  background-color: #282c34;
-  min-height: 100vh;
+  padding: 10px;
   display: flex;
   flex-direction: column;
   align-items: center;
-  /*justify-content: center;*/
-  font-size: calc(10px + 2vmin);
   color: white;
+  min-width: 475px;
 }
-.header {
-  font-size: 36px;
-  color: #FFFFFF;
+.heading {
+  font-size: 64px;
   vertical-align: top;
-  background-color: gray;
+  color: #000000;
+  margin: 10px;
 }
 .button {
-  background-color: gray;
+  background-color: deepskyblue;
+  width: 40%;
+  margin-bottom: 10px;
+  color: #FFFFFF;
+  font-size: 36px;
+  font-family: "Arial", serif;
+  border-radius: 10px;
+  min-width: 100px;
 }

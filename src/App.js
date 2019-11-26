@@ -1,6 +1,5 @@
 import React from 'react';
 import './App.css';
-
 const { Component } = React;
 
 class App extends Component {
@@ -11,8 +10,7 @@ class App extends Component {
     render() {
         return (
             <div className="App">
-                <header className="App-header">
-                    <text className="header">Cocktails</text>
+                    <p className="heading">Cocktails</p>
                     <button className='button' onClick={() => this.onClick('ingredient')}>Ingredients
                     </button>
                     <button className='button' onClick={() => this.onClick('garnish')}>Garnishes
@@ -27,7 +25,6 @@ class App extends Component {
                     </button>
                     <button className='button' onClick={() => this.onClick('cocktail')}>Cocktails
                     </button>
-                </header>
             </div>
         );
     }
