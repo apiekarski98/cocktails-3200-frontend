@@ -1,0 +1,42 @@
+.list-item {
+    padding: 5px;
+    padding-left: 15px;
+    width: 50%;
+    border-style: solid;
+    border-color: #000000;
+    border-width: 1px;
+    border-radius: 5px;
+    background-color: #f3f2f5;
+    margin-bottom: 10px;
+}
+.container {
+    display: flex;
+    flex-direction: row;
+}
+.text-container {
+    text-align: left;
+    justify-content: flex-start;
+    flex-grow: 1;
+}
+.icon-container {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+.list-item-text {
+    color: #000000;
+    justify-content: flex-start;
+}
+.delete-button {
+    border: none;
+    background-color: #f3f2f5;
+}
+.delete-icon {
+    color: red;
+    width: 25px;
+    height: 25px;
+    cursor: pointer;
+}
+button:focus {
+    outline: none;
+}
