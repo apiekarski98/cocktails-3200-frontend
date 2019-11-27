@@ -12,6 +12,8 @@ class Ingredient extends Component {
         ingredientDetail: {},
         isDisplayingDetails: false,
         currentDisplayedId: -1,
+        ingredient_id_update: '',
+        ingredient_name_update: '',
     };
 
     async getData() {
@@ -63,7 +65,7 @@ class Ingredient extends Component {
     };
 
     onClickAddIngredient = async () => {
-        const { ingredient_name } = this.state;
+        const {ingredient_name} = this.state;
         if (ingredient_name) {
             try {
                 await fetch(baseURL,
@@ -85,8 +87,42 @@ class Ingredient extends Component {
         }
     };
 
+    onClickUpdateIngredient = async () => {
+        const {ingredient_name_update, ingredient_id_update} = this.state;
+        if (ingredient_id_update && ingredient_name_update) {
+            try {
+                await fetch(baseURL + ingredient_id_update,
+                    {
+                        method: 'POST',
+                        headers: {
+                            'Accept': 'application/json',
+                            'Content-Type': 'application/json'
+                        },
+                        body: JSON.stringify({
+                            ingredient_name: ingredient_name_update,
+                        }),
+                    });
+                this.setState({
+                    ingredient_name_update: "",
+                    ingredient_id_update: "",
+                });
+                await this.getData();
+            } catch (err) {
+                throw err;
+            }
+        }
+    };
+
     handleNewIngredient = event => {
         this.setState({ingredient_name: event.target.value});
+    };
+
+    handleNameEntry = event => {
+        this.setState({ingredient_name_update: event.target.value});
+    };
+
+    handleIdEntry = event => {
+        this.setState({ingredient_id_update: event.target.value});
     };
 
     renderListItem = (ingredient) => {
@@ -110,13 +146,28 @@ class Ingredient extends Component {
         return <div className="header">
             <h1 className="page-label">Ingredients</h1>
             {ingredients.map(ingredient => this.renderListItem(ingredient))}
-            <p>Ingredient name: </p>
+            <p>Add new ingredient: </p>
             <input
                 type="text"
                 name="ingredient"
+                placeholder="Name"
                 value={this.state.ingredient_name}
                 onChange={this.handleNewIngredient}/>
             <button onClick={() => this.onClickAddIngredient()}>Add ingredient</button>
+            <p>Update ingredient name: </p>
+            <input
+                type="text"
+                name="ingredient_id"
+                placeholder="ID"
+                value={this.state.ingredient_id_update}
+                onChange={this.handleIdEntry}/>
+            <input
+                type="text"
+                name="ingredient_name"
+                placeholder="Name"
+                value={this.state.ingredient_name_update}
+                onChange={this.handleNameEntry}/>
+            <button onClick={() => this.onClickUpdateIngredient()}>Update ingredient name</button>
         </div>;
     }
 }
