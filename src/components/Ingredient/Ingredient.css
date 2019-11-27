@@ -3,4 +3,12 @@
     color: black;
     font-size: 16px;
     padding: 10px;
+    font-family: "Arial", serif;
+}
+.page-label {
+    font-size: 48px;
+    vertical-align: top;
+    color: #000000;
+    margin: 0;
+    margin-bottom: 10px;
 }

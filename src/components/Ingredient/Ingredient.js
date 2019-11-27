@@ -1,31 +1,36 @@
 import React from 'react';
 import './Ingredient.css';
 import ListItem from '../ListItem/ListItem';
-const { Component } = React;
+
+const {Component} = React;
+const baseURL = 'http://localhost:8000/api/ingredient/';
 
 class Ingredient extends Component {
     state = {
         ingredients: [],
         ingredient_name: "",
+        ingredientDetail: {},
+        isDisplayingDetails: false,
+        currentDisplayedId: -1,
     };
 
     async getData() {
         try {
-            const response = await fetch('http://localhost:8000/api/ingredient');
+            const response = await fetch(baseURL);
             const ingredients = await response.json();
-            this.setState({ ingredients });
+            this.setState({ingredients});
         } catch (err) {
             return <p>There has been an issue loading the ingredients. Please try again</p>;
         }
     }
 
-     componentDidMount() {
+    componentDidMount() {
         this.getData();
     }
 
-    onClick = async (ingredient_id) => {
+    onClickDelete = async (ingredient_id) => {
         try {
-            await fetch('http://localhost:8000/api/ingredient/' + ingredient_id,
+            await fetch(baseURL + ingredient_id,
                 {
                     method: 'DELETE',
                 });
@@ -35,10 +40,33 @@ class Ingredient extends Component {
         }
     };
 
-    onClickAddIngredient = async () => {
-        if (this.state.ingredient_name !== null) {
+    onClickInfo = async (ingredient_id) => {
+        if (ingredient_id === this.state.currentDisplayedId && this.state.isDisplayingDetail) {
+            this.setState({
+                isDisplayingDetail: false,
+                ingredientDetail: {},
+            });
+        } else {
             try {
-                await fetch('http://localhost:8000/api/ingredient',
+                const response = await fetch(baseURL + ingredient_id);
+                const json = await response.json();
+                const ingredientDetail = json[0];
+                this.setState({
+                    ingredientDetail,
+                    isDisplayingDetail: true,
+                    currentDisplayedId: ingredient_id,
+                });
+            } catch (err) {
+                throw err;
+            }
+        }
+    };
+
+    onClickAddIngredient = async () => {
+        const { ingredient_name } = this.state;
+        if (ingredient_name) {
+            try {
+                await fetch(baseURL,
                     {
                         method: 'PUT',
                         headers: {
@@ -46,10 +74,10 @@ class Ingredient extends Component {
                             'Content-Type': 'application/json'
                         },
                         body: JSON.stringify({
-                            ingredient_name: this.state.ingredient_name,
+                            ingredient_name
                         }),
                     });
-                this.setState({ ingredient_name: "" });
+                this.setState({ingredient_name: ""});
                 await this.getData();
             } catch (err) {
                 throw err;
@@ -58,14 +86,30 @@ class Ingredient extends Component {
     };
 
     handleNewIngredient = event => {
-        this.setState({ ingredient_name: event.target.value });
+        this.setState({ingredient_name: event.target.value});
+    };
+
+    renderListItem = (ingredient) => {
+        const {ingredient_id, ingredient_name} = ingredient;
+        return (
+            <div key={ingredient_id + 'a'}>
+                <ListItem
+                    key={ingredient_id + 'b'}
+                    text={ingredient_name}
+                    onClickDelete={() => this.onClickDelete(ingredient_id)}
+                    onClickInfo={() => this.onClickInfo(ingredient_id)}
+                />
+                {this.state.isDisplayingDetail && this.state.currentDisplayedId === ingredient_id ?
+                    <p key={ingredient_id + 'c'}>Ingredient ID: {this.state.ingredientDetail.ingredient_id}</p> : null}
+            </div>
+        );
     };
 
     render() {
         const ingredients = this.state.ingredients;
-        return <h1 className="header">
-            <p>Ingredients</p>
-            {ingredients.map(i => <ListItem key={i.ingredient_id} text={i.ingredient_name} onClick={() => this.onClick(i.ingredient_id)}/>)}
+        return <div className="header">
+            <h1 className="page-label">Ingredients</h1>
+            {ingredients.map(ingredient => this.renderListItem(ingredient))}
             <p>Ingredient name: </p>
             <input
                 type="text"
@@ -73,7 +117,7 @@ class Ingredient extends Component {
                 value={this.state.ingredient_name}
                 onChange={this.handleNewIngredient}/>
             <button onClick={() => this.onClickAddIngredient()}>Add ingredient</button>
-        </h1>;
+        </div>;
     }
 }
 
