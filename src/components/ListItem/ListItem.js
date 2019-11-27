@@ -1,7 +1,9 @@
 import React from 'react';
 import './ListItem.css';
-import { TiTimes } from "react-icons/ti";
-const { Component } = React;
+import {TiTimes} from "react-icons/ti";
+import {TiInfoLargeOutline} from "react-icons/all";
+
+const {Component} = React;
 
 
 class ListItem extends Component {
@@ -12,7 +14,12 @@ class ListItem extends Component {
                     <p className="list-item-text">{this.props.text}</p>
                 </div>
                 <div className="icon-container">
-                    <button className="delete-button" onClick={this.props.onClick}>
+                    <button className="info-button" onClick={this.props.onClickInfo}>
+                        <TiInfoLargeOutline className="info-icon"/>
+                    </button>
+                </div>
+                <div className="icon-container">
+                    <button className="delete-button" onClick={this.props.onClickDelete}>
                         <TiTimes className="delete-icon"/>
                     </button>
                 </div>

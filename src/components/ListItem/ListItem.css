@@ -26,7 +26,19 @@
 .list-item-text {
     color: #000000;
     justify-content: flex-start;
+    font-family: "Arial", serif;
 }
+.info-button {
+    border: none;
+    background-color: #f3f2f5;
+}
+.info-icon {
+    color: skyblue;
+    width: 25px;
+    height: 25px;
+    cursor: pointer;
+}
+
 .delete-button {
     border: none;
     background-color: #f3f2f5;
