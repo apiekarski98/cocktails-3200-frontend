@@ -136,38 +136,54 @@ class Ingredient extends Component {
                     onClickInfo={() => this.onClickInfo(ingredient_id)}
                 />
                 {this.state.isDisplayingDetail && this.state.currentDisplayedId === ingredient_id ?
-                    <p key={ingredient_id + 'c'}>Ingredient ID: {this.state.ingredientDetail.ingredient_id}</p> : null}
+                    <p key={ingredient_id + 'c'} className="id-label">Ingredient
+                        ID: {this.state.ingredientDetail.ingredient_id}</p> : null}
             </div>
         );
     };
 
     render() {
         const ingredients = this.state.ingredients;
-        return <div className="header">
-            <h1 className="page-label">Ingredients</h1>
-            {ingredients.map(ingredient => this.renderListItem(ingredient))}
-            <p>Add new ingredient: </p>
-            <input
-                type="text"
-                name="ingredient"
-                placeholder="Name"
-                value={this.state.ingredient_name}
-                onChange={this.handleNewIngredient}/>
-            <button onClick={() => this.onClickAddIngredient()}>Add ingredient</button>
-            <p>Update ingredient name: </p>
-            <input
-                type="text"
-                name="ingredient_id"
-                placeholder="ID"
-                value={this.state.ingredient_id_update}
-                onChange={this.handleIdEntry}/>
-            <input
-                type="text"
-                name="ingredient_name"
-                placeholder="Name"
-                value={this.state.ingredient_name_update}
-                onChange={this.handleNameEntry}/>
-            <button onClick={() => this.onClickUpdateIngredient()}>Update ingredient name</button>
+        return <div className="container">
+            <div className="left-container">
+                <h1 className="page-label">Ingredients</h1>
+                {ingredients.map(ingredient => this.renderListItem(ingredient))}
+            </div>
+            <div className="right-container">
+                <div className="edit-container">
+                    <p>Add new ingredient: </p>
+                    <input
+                        className="text-input"
+                        type="text"
+                        name="ingredient"
+                        placeholder="Name"
+                        value={this.state.ingredient_name}
+                        onChange={this.handleNewIngredient}/>
+                    <button
+                        className="edit-button"
+                        onClick={() => this.onClickAddIngredient()}>Add ingredient</button>
+                </div>
+                <p>Update ingredient name: </p>
+                <div className="edit-container">
+                    <input
+                        className="text-input"
+                        type="text"
+                        name="ingredient_id"
+                        placeholder="ID"
+                        value={this.state.ingredient_id_update}
+                        onChange={this.handleIdEntry}/>
+                    <input
+                        className="text-input"
+                        type="text"
+                        name="ingredient_name"
+                        placeholder="Name"
+                        value={this.state.ingredient_name_update}
+                        onChange={this.handleNameEntry}/>
+                    <button
+                        className="edit-button"
+                        onClick={() => this.onClickUpdateIngredient()}>Update ingredient name</button>
+                </div>
+            </div>
         </div>;
     }
 }
