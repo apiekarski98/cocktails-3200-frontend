@@ -136,14 +136,14 @@ class Ingredient extends Component {
                     onClickInfo={() => this.onClickInfo(ingredient_id)}
                 />
                 {this.state.isDisplayingDetail && this.state.currentDisplayedId === ingredient_id ?
-                    <p key={ingredient_id + 'c'} className="id-label">Ingredient
-                        ID: {this.state.ingredientDetail.ingredient_id}</p> : null}
+                    <p key={ingredient_id + 'c'} className="id-label">
+                        Ingredient ID: {this.state.ingredientDetail.ingredient_id}</p> : null}
             </div>
         );
     };
 
     render() {
-        const { ingredients } = this.state;
+        const {ingredients} = this.state;
         return <div className="container">
             <div className="left-container">
                 <h1 className="page-label">Ingredients</h1>

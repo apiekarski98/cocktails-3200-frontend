@@ -1,7 +1,8 @@
 import React from 'react';
 import './Garnish.css';
 import ListItem from "../ListItem/ListItem";
-const { Component } = React;
+
+const {Component} = React;
 
 const baseURL = 'http://localhost:8000/api/garnish/';
 
@@ -136,14 +137,14 @@ class Garnish extends Component {
                     onClickInfo={() => this.onClickInfo(garnish_id)}
                 />
                 {this.state.isDisplayingDetail && this.state.currentDisplayedId === garnish_id ?
-                    <p key={garnish_id + 'c'} className="id-label">Garnish
-                        ID: {this.state.garnishDetail.garnish_id}</p> : null}
+                    <p key={garnish_id + 'c'} className="id-label">
+                        Garnish ID: {this.state.garnishDetail.garnish_id}</p> : null}
             </div>
         );
     };
 
     render() {
-        const { garnishes } = this.state;
+        const {garnishes} = this.state;
         return <div className="container">
             <div className="left-container">
                 <h1 className="page-label">Garnishes</h1>
