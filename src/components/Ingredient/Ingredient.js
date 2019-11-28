@@ -143,11 +143,11 @@ class Ingredient extends Component {
     };
 
     render() {
-        const ingredients = this.state.ingredients;
+        const { ingredients } = this.state;
         return <div className="container">
             <div className="left-container">
                 <h1 className="page-label">Ingredients</h1>
-                {ingredients.map(ingredient => this.renderListItem(ingredient))}
+                {ingredients && ingredients.map(ingredient => this.renderListItem(ingredient))}
             </div>
             <div className="right-container">
                 <p>Add new ingredient:</p>
