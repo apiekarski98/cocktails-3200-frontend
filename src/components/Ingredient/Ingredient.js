@@ -150,8 +150,8 @@ class Ingredient extends Component {
                 {ingredients.map(ingredient => this.renderListItem(ingredient))}
             </div>
             <div className="right-container">
+                <p>Add new ingredient:</p>
                 <div className="edit-container">
-                    <p>Add new ingredient: </p>
                     <input
                         className="text-input"
                         type="text"
@@ -161,9 +161,11 @@ class Ingredient extends Component {
                         onChange={this.handleNewIngredient}/>
                     <button
                         className="edit-button"
-                        onClick={() => this.onClickAddIngredient()}>Add ingredient</button>
+                        onClick={() => this.onClickAddIngredient()}>
+                        Add ingredient
+                    </button>
                 </div>
-                <p>Update ingredient name: </p>
+                <p>Update ingredient name:</p>
                 <div className="edit-container">
                     <input
                         className="text-input"
@@ -181,7 +183,9 @@ class Ingredient extends Component {
                         onChange={this.handleNameEntry}/>
                     <button
                         className="edit-button"
-                        onClick={() => this.onClickUpdateIngredient()}>Update ingredient name</button>
+                        onClick={() => this.onClickUpdateIngredient()}>
+                        Update ingredient name
+                    </button>
                 </div>
             </div>
         </div>;
