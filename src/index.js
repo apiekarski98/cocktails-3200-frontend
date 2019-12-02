@@ -10,16 +10,8 @@ import Garnish from './components/Garnish/Garnish';
 import Glassware from './components/Glassware/Glassware';
 import Ingredient from './components/Ingredient/Ingredient';
 import Location from "./components/Location/Location";
+import Preparation from "./components/Preparation/Preparation";
 import * as serviceWorker from './serviceWorker';
-
-// async function getData() {
-//     // const response = await fetch('https://swapi.co/api/people/1/');
-//     const response = await fetch('localhost:8000');
-//     const myJson = await response.json();
-//     ReactDOM.render(<App name={JSON.stringify(myJson)}/>, document.getElementById('root'));
-// }
-//
-// getData();
 
 const routing = (
     <Router>
@@ -32,6 +24,7 @@ const routing = (
             <Route path="/glassware" component={Glassware} />
             <Route path="/ingredient" component={Ingredient} />
             <Route path="/location" component={Location} />
+            <Route path="/preparation" component={Preparation} />
         </div>
     </Router>
 )
