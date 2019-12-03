@@ -127,7 +127,7 @@ class Bar extends Component {
     };
 
     renderListItem = (bar) => {
-        const {bar_id, bar_name, location} = bar;
+        const {bar_id, bar_name} = bar;
         return (
             <div key={bar_id + 'a'}>
                 <ListItem
