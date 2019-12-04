@@ -177,7 +177,7 @@ class Bar extends Component {
                         onChange={this.handleNewBarName}/>
                     <input
                         className="text-input"
-                        type="text"
+                        type="number"
                         name="location"
                         placeholder="Location ID"
                         value={this.state.location}

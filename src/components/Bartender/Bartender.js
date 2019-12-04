@@ -1,18 +1,23 @@
 import React from 'react';
 import './Bartender.css';
 import ListItem from "../ListItem/ListItem";
-const { Component } = React;
+
+const {Component} = React;
 const baseURL = 'http://localhost:8000/api/bartender/';
 
 class Bartender extends Component {
     state = {
         bartenders: [],
-        bartender_name: "",
+        bartender_first_name: "",
+        bartender_last_name: "",
+        bartender_bar_id: "",
         bartenderDetail: {},
         isDisplayingDetails: false,
         currentDisplayedId: -1,
         bartender_id_update: '',
-        bartender_name_update: '',
+        bartender_f_name_update: '',
+        bartender_l_name_update: '',
+        bartender_bar_update: '',
     };
 
     async getData() {
@@ -64,8 +69,8 @@ class Bartender extends Component {
     };
 
     onClickAddBartender = async () => {
-        const {bartender_name} = this.state;
-        if (bartender_name) {
+        const {bartender_first_name, bartender_last_name, bartender_bar_id} = this.state;
+        if (bartender_first_name && bartender_last_name && bartender_bar_id) {
             try {
                 await fetch(baseURL,
                     {
@@ -75,10 +80,17 @@ class Bartender extends Component {
                             'Content-Type': 'application/json'
                         },
                         body: JSON.stringify({
-                            bartender_name
+                            first_name: bartender_first_name,
+                            last_name: bartender_last_name,
+                            bar: bartender_bar_id,
                         }),
                     });
-                this.setState({bartender_name: ""});
+                this.setState(
+                    {
+                        bartender_first_name: "",
+                        bartender_last_name: "",
+                        bartender_bar_id: "",
+                    });
                 await this.getData();
             } catch (err) {
                 throw err;
@@ -87,8 +99,8 @@ class Bartender extends Component {
     };
 
     onClickUpdateBartender = async () => {
-        const {bartender_name_update, bartender_id_update} = this.state;
-        if (bartender_id_update && bartender_name_update) {
+        const {bartender_id_update, bartender_f_name_update, bartender_l_name_update, bartender_bar_update} = this.state;
+        if (bartender_f_name_update && bartender_l_name_update && bartender_bar_update) {
             try {
                 await fetch(baseURL + bartender_id_update,
                     {
@@ -98,12 +110,16 @@ class Bartender extends Component {
                             'Content-Type': 'application/json'
                         },
                         body: JSON.stringify({
-                            bartender_name: bartender_name_update,
+                            first_name: bartender_f_name_update,
+                            last_name: bartender_l_name_update,
+                            bar: bartender_bar_update,
                         }),
                     });
                 this.setState({
-                    bartender_name_update: "",
                     bartender_id_update: "",
+                    bartender_f_name_update: "",
+                    bartender_l_name_update: "",
+                    bartender_bar_update: "",
                 });
                 await this.getData();
             } catch (err) {
@@ -112,16 +128,32 @@ class Bartender extends Component {
         }
     };
 
-    handleNewBartender = event => {
-        this.setState({bartender_name: event.target.value});
+    handleNewFirstName = event => {
+        this.setState({bartender_first_name: event.target.value});
     };
 
-    handleNameEntry = event => {
-        this.setState({bartender_name_update: event.target.value});
+    handleNewLastName = event => {
+        this.setState({bartender_last_name: event.target.value});
     };
 
-    handleIdEntry = event => {
+    handleNewBarID = event => {
+        this.setState({bartender_bar_id: event.target.value});
+    };
+
+    handleIdUpdate = event => {
         this.setState({bartender_id_update: event.target.value});
+    };
+
+    handleFNameUpdate = event => {
+        this.setState({bartender_f_name_update: event.target.value});
+    };
+
+    handleLNameUpdate = event => {
+        this.setState({bartender_l_name_update: event.target.value});
+    };
+
+    handleBarUpdate = event => {
+        this.setState({bartender_bar_update: event.target.value});
     };
 
     renderListItem = (bartender) => {
@@ -157,17 +189,25 @@ class Bartender extends Component {
                     <input
                         className="text-input"
                         type="text"
-                        name="bartender"
-                        placeholder="Name"
-                        value={this.state.bartender_name}
-                        onChange={this.handleNewBartender}/>
+                        name="first_name"
+                        placeholder="First name"
+                        value={this.state.bartender_first_name}
+                        onChange={this.handleNewFirstName}/>
                     <input
                         className="text-input"
                         type="text"
-                        name="location"
-                        placeholder="Location"
-                        value={this.state.location}
-                        onChange={this.handleNewBartender}/>
+                        name="last_name"
+                        placeholder="Last name"
+                        value={this.state.bartender_last_name}
+                        onChange={this.handleNewLastName}/>
+                    <input
+                        className="text-input"
+                        type="number"
+                        min={0}
+                        name="bar"
+                        placeholder="Bar ID"
+                        value={this.state.bartender_bar_id}
+                        onChange={this.handleNewBarID}/>
                     <button
                         className="edit-button"
                         onClick={() => this.onClickAddBartender()}>
@@ -178,25 +218,34 @@ class Bartender extends Component {
                 <div className="edit-container">
                     <input
                         className="text-input"
-                        type="text"
+                        type="number"
+                        min={0}
                         name="bartender_id"
-                        placeholder="ID"
+                        placeholder="Bartender ID"
                         value={this.state.bartender_id_update}
-                        onChange={this.handleIdEntry}/>
+                        onChange={this.handleIdUpdate}/>
                     <input
                         className="text-input"
                         type="text"
-                        name="bartender_name"
-                        placeholder="Name"
-                        value={this.state.bartender_name_update}
-                        onChange={this.handleNameEntry}/>
+                        name="bartender_first_name"
+                        placeholder="First name"
+                        value={this.state.bartender_f_name_update}
+                        onChange={this.handleFNameUpdate}/>
                     <input
                         className="text-input"
                         type="text"
-                        name="bartender_location"
-                        placeholder="Location"
-                        value={this.state.bartender_name_update}
-                        onChange={this.handleNameEntry}/>
+                        name="bartender_last_name"
+                        placeholder="Last name"
+                        value={this.state.bartender_l_name_update}
+                        onChange={this.handleLNameUpdate}/>
+                    <input
+                        className="text-input"
+                        type="number"
+                        min={0}
+                        name="bartender_bar_id"
+                        placeholder="Bar ID"
+                        value={this.state.bartender_bar_update}
+                        onChange={this.handleBarUpdate}/>
                     <button
                         className="edit-button"
                         onClick={() => this.onClickUpdateBartender()}>
