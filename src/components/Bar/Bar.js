@@ -1,7 +1,8 @@
 import React from 'react';
 import './Bar.css';
 import ListItem from "../ListItem/ListItem";
-const { Component } = React;
+
+const {Component} = React;
 const baseURL = 'http://localhost:8000/api/bar/';
 
 class Bar extends Component {
@@ -13,7 +14,8 @@ class Bar extends Component {
         currentDisplayedId: -1,
         bar_id_update: '',
         bar_name_update: '',
-        location_id: '',
+        bar_location_update: '',
+        location: '',
         city: '',
     };
 
@@ -67,7 +69,7 @@ class Bar extends Component {
 
     onClickAddBar = async () => {
         const {bar_name, location} = this.state;
-        if (bar_name) {
+        if (bar_name && location) {
             try {
                 await fetch(baseURL,
                     {
@@ -77,10 +79,11 @@ class Bar extends Component {
                             'Content-Type': 'application/json'
                         },
                         body: JSON.stringify({
-                            bar_name
+                            bar_name,
+                            location
                         }),
                     });
-                this.setState({bar_name: ""});
+                this.setState({bar_name: "", location: ""});
                 await this.getData();
             } catch (err) {
                 throw err;
@@ -89,8 +92,8 @@ class Bar extends Component {
     };
 
     onClickUpdateBar = async () => {
-        const {bar_name_update, bar_id_update} = this.state;
-        if (bar_id_update && bar_name_update) {
+        const {bar_name_update, bar_id_update, bar_location_update} = this.state;
+        if (bar_id_update && bar_name_update && bar_location_update) {
             try {
                 await fetch(baseURL + bar_id_update,
                     {
@@ -101,11 +104,13 @@ class Bar extends Component {
                         },
                         body: JSON.stringify({
                             bar_name: bar_name_update,
+                            location: bar_location_update
                         }),
                     });
                 this.setState({
                     bar_name_update: "",
                     bar_id_update: "",
+                    bar_location_update: "",
                 });
                 await this.getData();
             } catch (err) {
@@ -114,8 +119,12 @@ class Bar extends Component {
         }
     };
 
-    handleNewBar = event => {
+    handleNewBarName = event => {
         this.setState({bar_name: event.target.value});
+    };
+
+    handleNewBarLocation = e => {
+        this.setState({location: e.target.value});
     };
 
     handleNameEntry = event => {
@@ -124,6 +133,10 @@ class Bar extends Component {
 
     handleIdEntry = event => {
         this.setState({bar_id_update: event.target.value});
+    };
+
+    handleLocationEntry = event => {
+        this.setState({bar_location_update: event.target.value});
     };
 
     renderListItem = (bar) => {
@@ -138,7 +151,9 @@ class Bar extends Component {
                 />
                 {this.state.isDisplayingDetail && this.state.currentDisplayedId === bar_id ?
                     <p key={bar_id + 'c'} className="id-label">
-                        Bar ID: {this.state.barDetail.bar_id} <br/> Location ID: {this.state.barDetail.location} <br/> City: {this.state.barDetail.city}</p> : null}
+                        Bar ID: {this.state.barDetail.bar_id}<br/>
+                        Location ID: {this.state.barDetail.location}<br/>
+                        City: {this.state.barDetail.city}</p> : null}
             </div>
         );
     };
@@ -159,17 +174,18 @@ class Bar extends Component {
                         name="bar"
                         placeholder="Name"
                         value={this.state.bar_name}
-                        onChange={this.handleNewBar}/>
+                        onChange={this.handleNewBarName}/>
                     <input
                         className="text-input"
                         type="text"
                         name="location"
-                        placeholder="Location"
+                        placeholder="Location ID"
                         value={this.state.location}
-                        onChange={this.handleNewBar}/>
+                        onChange={this.handleNewBarLocation}/>
                     <button
                         className="edit-button"
-                        onClick={() => this.onClickAddBar()}>
+                        onClick={() => this.onClickAddBar()}
+                    >
                         Add bar
                     </button>
                 </div>
@@ -179,7 +195,7 @@ class Bar extends Component {
                         className="text-input"
                         type="text"
                         name="bar_id"
-                        placeholder="ID"
+                        placeholder="Bar ID"
                         value={this.state.bar_id_update}
                         onChange={this.handleIdEntry}/>
                     <input
@@ -193,9 +209,9 @@ class Bar extends Component {
                         className="text-input"
                         type="text"
                         name="bar_location"
-                        placeholder="Location"
-                        value={this.state.bar_name_update}
-                        onChange={this.handleNameEntry}/>
+                        placeholder="Location ID"
+                        value={this.state.bar_location_update}
+                        onChange={this.handleLocationEntry}/>
                     <button
                         className="edit-button"
                         onClick={() => this.onClickUpdateBar()}>
