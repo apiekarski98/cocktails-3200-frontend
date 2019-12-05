@@ -1,7 +1,8 @@
 import React from 'react';
 import './Cocktail.css';
 import ListItem from "../ListItem/ListItem";
-const { Component } = React;
+
+const {Component} = React;
 
 const baseURL = 'http://localhost:8000/api/cocktail/';
 
@@ -58,16 +59,32 @@ class Cocktail extends Component {
             this.setState({
                 isDisplayingDetail: false,
                 cocktailDetail: {},
+                cocktailIngredients: [],
+                cocktailGarnishes: [],
+                cocktailSteps: [],
             });
         } else {
             try {
                 const response = await fetch(baseURL + cocktail_id);
                 const json = await response.json();
                 const cocktailDetail = json[0];
+
+                const ingredient_response = await fetch(baseURL + cocktail_id + '/ingredient');
+                const cocktailIngredients = await ingredient_response.json();
+
+                const garnish_response = await fetch(baseURL + cocktail_id + '/garnish');
+                const cocktailGarnishes = await garnish_response.json();
+
+                const preparation_response = await fetch(baseURL + cocktail_id + '/preparation');
+                const cocktailSteps = await preparation_response.json();
+
                 this.setState({
                     cocktailDetail,
                     isDisplayingDetail: true,
                     currentDisplayedId: cocktail_id,
+                    cocktailIngredients,
+                    cocktailGarnishes,
+                    cocktailSteps,
                 });
             } catch (err) {
                 throw err;
@@ -409,7 +426,8 @@ class Cocktail extends Component {
 
     renderListItem = (cocktail) => {
         const {cocktail_id, cocktail_name} = cocktail;
-        const { bartender, glassware } = this.state.cocktailDetail;
+        const {bartender, glassware} = this.state.cocktailDetail;
+        const {cocktailIngredients, cocktailGarnishes, cocktailSteps} = this.state;
         return (
             <div key={cocktail_id + 'a'}>
                 <ListItem
@@ -419,11 +437,27 @@ class Cocktail extends Component {
                     onClickInfo={() => this.onClickInfo(cocktail_id)}
                 />
                 {this.state.isDisplayingDetail && this.state.currentDisplayedId === cocktail_id ?
-                    <p key={cocktail_id + 'c'} className="id-label">
-                        Cocktail ID: {this.state.cocktailDetail.cocktail_id}<br/>
-                        Bartender: {bartender === null ? "Unknown" : bartender}<br/>
-                        Glassware: {glassware === null ? "None" : glassware}
-                    </p> : null}
+                    <div key={cocktail_id + 'c'}>
+                        <p className="id-label">
+                            Cocktail ID: {this.state.cocktailDetail.cocktail_id}
+                        </p>
+                        <p className="id-label">Bartender: {bartender === null ? "Unknown" : bartender}</p>
+                        <p className="id-label">Glassware: {glassware === null ? "Unknown" : glassware}</p>
+                        <div>
+                            <p className="id-label">Ingredients:</p>
+                            <ul>{cocktailIngredients.length === 0 ? "None" : cocktailIngredients.map(i =>
+                                <li>{i.amount} {i.ingredient_name}</li>)}
+                            </ul>
+                            <p className="id-label">Garnishes:</p>
+                            <ul>{cocktailGarnishes.length === 0 ? "None" : cocktailGarnishes.map(g =>
+                                <li>{g.amount} {g.garnish_name}</li>)}
+                            </ul>
+                            <p className="id-label">Preparation:</p>
+                            <ul>{cocktailSteps.length === 0 ? "None" : cocktailSteps.map(s =>
+                                <li>{s.step}</li>)}
+                            </ul>
+                        </div>
+                    </div> : null}
             </div>
         );
     };
